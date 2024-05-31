@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Example</title>
+</head>
+
+<body>
+
+    <!-- Button to initialize Mastercard framework -->
+    <button id="initButton">Initialize Mastercard</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to initialize Mastercard framework
+            function initializeMastercard() {
+                // Parameters for initialization
+                const params = {
+                    srcDpaId: "b756a2b0-ef62-4c62-a6de-f72e75ce5f17", // Required DPA Identifier
+                    dpaData: {
+                        dpaName: "DPA Name" // Required DPA Name
+                    },
+                    dpaTransactionOptions: {
+                        dpaLocale: "en_US" // Required DPA Locale
+                    },
+                    cardBrands: ["mastercard"] // Required card brands
+                };
+
+                // Define response handlers
+                function promiseResolvedHandler(payload) {
+                    // Handle successful initialization
+                    console.log("Initialization successful. Available card brands:", payload.availableCardBrands);
+                    // You can proceed with the next steps here
+                }
+
+                function promiseRejectedHandler(payload) {
+                    // Handle initialization error
+                    console.error("Initialization error:", payload);
+                    // You can display an error message to the user
+                }
+
+                // Instantiate MastercardCheckoutServices object
+                window.clicktopay = new MastercardCheckoutServices();
+
+                // Call the init method to initialize Mastercard framework
+                const initPromise = window.clicktopay.init(params); // Returns a promise
+
+                // Handle the promise using then/catch
+                initPromise
+                    .then(promiseResolvedHandler)
+                    .catch(promiseRejectedHandler);
+            }
+
+            // Add event listener to the initialize button
+            document.getElementById("initButton").addEventListener("click", initializeMastercard);
+        });
+    </script>
+
+</body>
+
+</html>
